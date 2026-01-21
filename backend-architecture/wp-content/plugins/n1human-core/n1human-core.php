@@ -15,10 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Autoloader simple para el namespace
 spl_autoload_register( function ( $class ) {
-    $prefix = 'N1Human\Core\';
+    $prefix = 'N1Human\\Core\\';
     $base_dir = plugin_dir_path( __FILE__ ) . 'includes/';
 
-    $len = strlen( $prefix );
+    $len = strlen( $prefix ); // <-- PUNTO Y COMA AÑADIDO
     if ( strncmp( $prefix, $class, $len ) !== 0 ) {
         return;
     }
@@ -46,4 +46,3 @@ add_action( 'init', function() {
     header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
     header("Access-Control-Allow-Headers: Content-Type, Authorization");
 });
-
