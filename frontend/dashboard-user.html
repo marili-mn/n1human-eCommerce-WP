@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script type="module" src="assets/js/script.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>Mi Cuenta - n1Human</title>
+  <style>
+    .dashboard-container { max-width: 1000px; margin: 120px auto 50px; padding: 0 20px; }
+    .welcome-card { background: #111; border: 1px solid #333; padding: 30px; border-radius: 8px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+    .orders-section h2 { margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+    .orders-table { width: 100%; border-collapse: collapse; background: #050505; }
+    .orders-table th, .orders-table td { padding: 15px; text-align: left; border-bottom: 1px solid #222; }
+    .orders-table th { text-transform: uppercase; font-size: 0.8rem; color: #888; }
+    .status-badge { padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; text-transform: uppercase; }
+    .status-completed { background: #1a3d1a; color: #4caf50; }
+    .status-processing { background: #3d331a; color: #ffc107; }
+    .btn-logout { background: transparent; border: 1px solid #ff4444; color: #ff4444; padding: 8px 15px; cursor: pointer; border-radius: 4px; transition: all 0.3s; }
+    .btn-logout:hover { background: #ff4444; color: #fff; }
+    
+    /* Skeleton Loading */
+    .skeleton {
+      background: linear-gradient(90deg, #111 25%, #222 50%, #111 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+      height: 20px;
+      border-radius: 4px;
+    }
+    @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  </style>
+</head>
+<body>
+  
+  <n1-navbar></n1-navbar>
+
+  <div class="dashboard-container">
+    <div class="welcome-card">
+      <div>
+        <h1 id="user-name">Hola, Miembro</h1>
+        <p>Bienvenido a tu panel de control.</p>
+      </div>
+      <button id="logout-btn" class="btn-logout">Cerrar Sesión</button>
+    </div>
+
+    <div class="orders-section">
+      <h2>Mis Pedidos Recientes</h2>
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>ID Pedido</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Detalles</th>
+          </tr>
+        </thead>
+        <tbody id="orders-body">
+          <!-- Skeleton Rows -->
+          <tr>
+            <td><div class="skeleton" style="width: 60px;"></div></td>
+            <td><div class="skeleton" style="width: 100px;"></div></td>
+            <td><div class="skeleton" style="width: 80px;"></div></td>
+            <td><div class="skeleton" style="width: 90px;"></div></td>
+            <td><div class="skeleton" style="width: 50px;"></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <n1-footer></n1-footer>
+
+  <script type="module">
+    import { authService } from './assets/js/services/AuthService.js';
+    import { orderService } from './assets/js/services/OrderService.js';
+
+    // Auth Guard
+    if (!authService.isAuthenticated()) {
+      window.location.href = 'n1humanLogin.html';
+    }
+
+    const user = authService.getUser();
+    document.getElementById('user-name').innerText = `Hola, ${user.name}`;
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      authService.logout();
+    });
+
+    // Simular carga de datos (SSR Hydration feel)
+    setTimeout(() => {
+      const orders = orderService.getByUser(user.email);
+      const tbody = document.getElementById('orders-body');
+      
+      if (orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:#666;">No has realizado pedidos aún.</td></tr>';
+      } else {
+        tbody.innerHTML = orders.map(order => `
+          <tr>
+            <td>#${order.id}</td>
+            <td>${new Date(order.date).toLocaleDateString()}</td>
+            <td>$${parseFloat(order.total).toFixed(2)}</td>
+            <td><span class="status-badge status-processing">${order.status}</span></td>
+            <td style="font-size: 0.8rem; color: #aaa;">${order.items.length} items</td>
+          </tr>
+        `).join('');
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/login.css" />
+    <script type="module" src="assets/js/script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>n1Human Members</title>
+    <style>
+      n1-navbar { position: relative; z-index: 100; }
+      
+      .auth-container {
+        display: flex; flex-direction: column; align-items: center;
+        justify-content: center; min-height: 100vh; padding: 20px;
+        position: relative; z-index: 50;
+      }
+
+      .auth-card {
+        background: rgba(10, 10, 10, 0.9);
+        border: 1px solid #333;
+        padding: 40px;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        backdrop-filter: blur(10px);
+      }
+
+      @media (max-width: 600px) {
+        .auth-card {
+          padding: 25px 20px;
+          width: 95%;
+        }
+        .form-title {
+          font-size: 1.4rem;
+          margin-bottom: 20px;
+        }
+        .auth-container {
+          padding: 10px;
+        }
+      }
+
+      .form-title {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 1.8rem;
+        color: #fff;
+      }
+
+      .input-group { margin-bottom: 20px; }
+      .input-group label { display: block; margin-bottom: 8px; color: #888; font-size: 0.8rem; text-transform: uppercase; }
+      
+      input {
+        width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333;
+        color: #fff; border-radius: 4px; font-size: 1rem; transition: border-color 0.3s;
+      }
+      input:focus { border-color: #fff; outline: none; }
+
+      .submit-btn {
+        width: 100%; padding: 15px; background: #fff; color: #000;
+        border: none; font-weight: bold; text-transform: uppercase;
+        cursor: pointer; border-radius: 4px; margin-top: 10px;
+        display: flex; justify-content: center; align-items: center; gap: 10px;
+      }
+      .submit-btn:hover { background: #ccc; }
+
+      /* Toggle Button */
+      .toggle-container {
+        text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid #222;
+      }
+      .toggle-container p { color: #666; font-size: 0.9rem; margin-bottom: 10px; }
+      .btn-outline {
+        background: transparent; border: 1px solid #555; color: #fff;
+        padding: 8px 20px; cursor: pointer; border-radius: 4px; font-size: 0.8rem;
+        text-transform: uppercase; transition: all 0.3s;
+      }
+      .btn-outline:hover { border-color: #fff; }
+
+      /* Sandbox Guide */
+      .sandbox-guide {
+        margin-top: 30px; background: rgba(0, 255, 0, 0.05);
+        border: 1px dashed rgba(0, 255, 0, 0.3); padding: 20px; border-radius: 8px;
+      }
+      .sandbox-guide h4 { color: #00ff00; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+      .cred-row { display: flex; justify-content: space-between; font-family: monospace; font-size: 0.85rem; margin-bottom: 5px; }
+      .cred-label { color: #888; }
+      .cred-val { color: #eee; }
+
+      /* Logic States */
+      body.mode-login .register-only { display: none; }
+      body.mode-register .login-only { display: none; }
+
+      .loader {
+        width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.2);
+        border-top: 2px solid #000; border-radius: 50%;
+        animation: spin 0.8s linear infinite; display: none;
+      }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      .loading .loader { display: block; }
+      .loading span { display: none; }
+    </style>
+</head>
+<body class="mode-login">
+    <n1-navbar></n1-navbar>
+
+    <div class="auth-container">
+      <div class="auth-card">
+        <h2 id="form-title" class="form-title">Login</h2>
+
+        <form id="auth-form">
+          <div class="input-group register-only">
+            <label>Nombre Completo</label>
+            <input type="text" id="name" placeholder="Tu nombre">
+          </div>
+
+          <div class="input-group">
+            <label>Email</label>
+            <input type="email" id="email" required placeholder="email@ejemplo.com">
+          </div>
+
+          <div class="input-group">
+            <label>Contraseña</label>
+            <input type="password" id="password" required placeholder="••••••••">
+          </div>
+
+          <button type="submit" class="submit-btn" id="submit-btn">
+            <span id="btn-text">Entrar</span>
+            <div class="loader"></div>
+          </button>
+        </form>
+
+        <div class="toggle-container">
+          <p id="toggle-msg">¿Eres nuevo?</p>
+          <button id="toggle-btn" class="btn-outline">Crear una cuenta</button>
+        </div>
+
+        <div class="sandbox-guide">
+          <h4><i class="fas fa-flask"></i> Testing Credentials</h4>
+          <div class="cred-row">
+            <span class="cred-label">Admin:</span>
+            <span class="cred-val">admin@n1human.com / 123</span>
+          </div>
+          <div class="cred-row">
+            <span class="cred-label">User:</span>
+            <span class="cred-val">user@n1human.com / 123</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="underlay-photo"></div>
+    <div class="underlay-black"></div>
+
+    <n1-footer></n1-footer>
+
+    <script type="module">
+      import { authService } from './assets/js/services/AuthService.js';
+
+      const body = document.body;
+      const form = document.getElementById('auth-form');
+      const toggleBtn = document.getElementById('toggle-btn');
+      const toggleMsg = document.getElementById('toggle-msg');
+      const title = document.getElementById('form-title');
+      const btnText = document.getElementById('btn-text');
+      const submitBtn = document.getElementById('submit-btn');
+      const nameInput = document.getElementById('name');
+
+      // Auto-redirect if logged
+      if (authService.isAuthenticated()) {
+        const user = authService.getUser();
+        window.location.href = user.role === 'admin' ? 'dashboard-admin.html' : 'dashboard-user.html';
+      }
+
+      let isLoginMode = true;
+
+      toggleBtn.addEventListener('click', () => {
+        isLoginMode = !isLoginMode;
+        if (isLoginMode) {
+          body.className = 'mode-login';
+          title.innerText = 'Login';
+          btnText.innerText = 'Entrar';
+          toggleMsg.innerText = '¿Eres nuevo?';
+          toggleBtn.innerText = 'Crear una cuenta';
+          nameInput.removeAttribute('required');
+        } else {
+          body.className = 'mode-register';
+          title.innerText = 'Registro';
+          btnText.innerText = 'Registrarse';
+          toggleMsg.innerText = '¿Ya tienes cuenta?';
+          toggleBtn.innerText = 'Iniciar Sesión';
+          nameInput.setAttribute('required', 'true');
+        }
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const name = nameInput.value;
+
+        try {
+          if (isLoginMode) {
+            const session = await authService.login(email, password);
+            window.location.href = session.user.role === 'admin' ? 'dashboard-admin.html' : 'dashboard-user.html';
+          } else {
+            await authService.register(name, email, password);
+            await authService.login(email, password);
+            alert('Cuenta creada exitosamente.');
+            window.location.href = 'dashboard-user.html';
+          }
+        } catch (error) {
+          alert('Error: ' + error);
+          submitBtn.classList.remove('loading');
+          submitBtn.disabled = false;
+        }
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script type="module" src="assets/js/script.js" defer></script>
+  <script type="module" src="assets/js/shop.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>Tienda Oficial - n1Human</title>
+  <style>
+    /* Estilos específicos de la tienda (Shop) */
+    .shop-header {
+      margin-top: 100px; /* Espacio para el navbar fijo */
+      padding: 60px 20px;
+      text-align: center;
+      background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('assets/img/deep_space_nebula_by_hameed.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .shop-header h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid #fff;
+      color: #fff;
+      padding: 10px 25px;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-family: 'Familjen Grotesk', sans-serif;
+      transition: all 0.3s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: #fff;
+      color: #000;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    @media (max-width: 768px) {
+      .shop-header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <n1-navbar></n1-navbar>
+
+  <div class="shop-header">
+    <h1 data-i18n="nav_shop">Tienda</h1>
+    <p>Explora la colección completa.</p>
+    
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="camisas" data-i18n="nav_shirts">Camisas</button>
+      <button class="filter-btn" data-filter="remeras" data-i18n="nav_tshirts">Remeras</button>
+      <button class="filter-btn" data-filter="accesorios" data-i18n="nav_accessories">Accesorios</button>
+    </div>
+  </div>
+
+  <div id="product-grid" class="product-grid">
+    <!-- Los productos se inyectan aquí vía JS -->
+  </div>
+
+  <n1-footer></n1-footer>
+</body>
+</html>

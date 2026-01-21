@@ -1,0 +1,74 @@
+[
+  {
+    "id": 101,
+    "name": "Camisa Falcon 9",
+    "slug": "camisa-falcon-9",
+    "price": 45.00,
+    "category": "camisas",
+    "image": "assets/img/npcHuman1 (1).jpg",
+    "description": "Inspirada en la ingeniería aeroespacial. Corte minimalista."
+  },
+  {
+    "id": 102,
+    "name": "Camisa Heavy",
+    "slug": "camisa-heavy",
+    "price": 55.00,
+    "category": "camisas",
+    "image": "assets/img/npcHuman1 (2).jpg",
+    "description": "Tejido resistente para entornos hostiles."
+  },
+  {
+    "id": 103,
+    "name": "Camisa Orbital",
+    "slug": "camisa-orbital",
+    "price": 49.99,
+    "category": "camisas",
+    "image": "assets/img/npcHuman1 (7).jpg",
+    "description": "Diseño ligero para gravedad cero."
+  },
+  {
+    "id": 201,
+    "name": "Remera Finix",
+    "slug": "remera-finix",
+    "price": 25.00,
+    "category": "remeras",
+    "image": "assets/img/npcHuman1 (3).jpg",
+    "description": "Algodón orgánico con diseño retro-futurista."
+  },
+  {
+    "id": 202,
+    "name": "Remera Starship",
+    "slug": "remera-starship",
+    "price": 30.00,
+    "category": "remeras",
+    "image": "assets/img/npcHuman1 (6).jpg",
+    "description": "Edición limitada lanzamiento 2025."
+  },
+  {
+    "id": 203,
+    "name": "Remera Void",
+    "slug": "remera-void",
+    "price": 28.00,
+    "category": "remeras",
+    "image": "assets/img/npcHuman1 (5).jpg",
+    "description": "El vacío nunca lució tan bien."
+  },
+  {
+    "id": 301,
+    "name": "Gafas Dragon",
+    "slug": "gafas-dragon",
+    "price": 80.00,
+    "category": "accesorios",
+    "image": "assets/img/npcHuman1 (4).jpg",
+    "description": "Protección UV nivel orbital."
+  },
+  {
+    "id": 302,
+    "name": "Accesorio Neural",
+    "slug": "accesorio-neural",
+    "price": 120.00,
+    "category": "accesorios",
+    "image": "assets/img/black-hole-eye-screen.jpg",
+    "description": "Interfaz visual de última generación."
+  }
+]

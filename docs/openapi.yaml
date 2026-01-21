@@ -1,0 +1,149 @@
+openapi: 3.0.0
+info:
+  title: n1Human eCommerce API (Headless WP)
+  description: |
+    API REST personalizada para el e-commerce n1Human. 
+    Esta especificación detalla los endpoints expuestos por el plugin 'n1human-core' en WordPress 
+    para ser consumidos por el frontend desacoplado (Web Components).
+  version: 1.0.0
+  contact:
+    name: Equipo de Ingeniería n1Human
+    email: dev@n1human.com
+
+servers:
+  - url: https://api.n1human.com/wp-json/n1human/v1
+    description: Servidor de Producción
+  - url: http://localhost/wp-json/n1human/v1
+    description: Servidor de Desarrollo Local
+
+tags:
+  - name: Productos
+    description: Operaciones de catálogo y stock
+  - name: Pedidos
+    description: Gestión de órdenes y carrito
+  - name: Auth
+    description: Autenticación de miembros
+
+paths:
+  /products:
+    get:
+      summary: Obtener catálogo de productos
+      tags: [Productos]
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+            enum: [camisas, remeras, accesorios]
+          description: Filtrar por categoría
+      responses:
+        '200':
+          description: Lista de productos obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+  /products/{id}:
+    get:
+      summary: Obtener detalle de producto
+      tags: [Productos]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalle del producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+
+  /orders:
+    post:
+      summary: Crear nuevo pedido
+      tags: [Pedidos]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderInput'
+      responses:
+        '201':
+          description: Pedido creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order_id:
+                    type: integer
+                  status:
+                    type: string
+                    example: processing
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 101
+        name:
+          type: string
+          example: "Camisa Falcon 9"
+        slug:
+          type: string
+          example: "camisa-falcon-9"
+        price:
+          type: number
+          format: float
+          example: 45.00
+        category:
+          type: string
+          example: "camisas"
+        image:
+          type: string
+          example: "assets/img/npcHuman1.jpg"
+        stock_status:
+          type: string
+          enum: [instock, outofstock]
+    
+    OrderInput:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              product_id:
+                type: integer
+              quantity:
+                type: integer
+        shipping_address:
+          type: object
+          properties:
+            street:
+              type: string
+            city:
+              type: string
+            zip:
+              type: string
