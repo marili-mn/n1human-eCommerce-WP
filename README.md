@@ -1,33 +1,82 @@
-Proyecto n1Human
+# 🚀 n1Human - Headless e-Commerce Architecture
 
-Este proyecto es una práctica de desarrollo web enfocada en la creación de un sitio para la marca de ropa n1Human. La idea es construir un concepto de frontend utilizando HTML, CSS y JavaScript como punto de partida, con la intención de agregar más funcionalidades y un backend en el futuro.
-Acerca de n1Human
+> **Prueba de Concepto (PoC)** de arquitectura escalable para WordPress Headless, Web Components y Seguridad.
+> Diseñado para demostrar capacidades de ingeniería de software más allá del desarrollo de temas tradicionales.
 
-n1Human es una marca originaria de Concordia, Entre Ríos, que se inspira en conceptos de minimalismo, arte psicodélico y la estética vintage de los años 90. Con una visión única y vanguardista, n1Human se esfuerza por ofrecer prendas de alta calidad que reflejen estos principios en su diseño y estilo. La marca busca destacarse en el mundo de la moda urbana con una combinación de elementos modernos y nostálgicos, atrayendo a un público que valora la originalidad y la creatividad en la indumentaria.
-Estructura del Proyecto
+---
 
-El proyecto está estructurado de la siguiente manera:
+## 🏗️ Arquitectura del Proyecto
 
-    css/: Carpeta que contiene los archivos CSS para estilos.
-    img/: Carpeta que contiene imágenes utilizadas en el sitio web.
-    js/: Carpeta que contiene archivos JavaScript para la interactividad del sitio.
-    index.html: Página principal del sitio web.
-    camisas.html: Página de la colección de camisetas.
-    falcon-heavy.html: Página de la colección de chaquetas.
-    dragon.html: Página de la colección de pantalones.
+El repositorio está dividido en tres capas lógicas para demostrar desacoplamiento y mantenibilidad:
 
-Objetivos Futuros
+1.  **`/frontend` (The Client):** Single Page Application (SPA) construida con Vanilla JS y Web Components Nativos. No depende de frameworks pesados. Consume una API (simulada o real).
+2.  **`/backend-architecture` (The Core):** Código PHP estructurado para WordPress (Plugin MVC). Define la lógica de negocio, endpoints REST personalizados y seguridad.
+3.  **`/docs` (The Contract):** Especificación OpenAPI (Swagger) que define la interfaz entre ambas partes.
 
-En el futuro, se planea mejorar este proyecto agregando las siguientes funcionalidades:
+---
 
-    Implementación de un backend para manejar la lógica del sitio, como la gestión de productos, el carrito de compras y la autenticación de usuarios.
-    Integración de un sistema de pagos para permitir a los usuarios realizar compras en línea de manera segura.
-    Desarrollo de un panel de administración para que los propietarios de n1Human puedan gestionar el inventario, las órdenes de compra y otros aspectos del negocio.
-    Optimización del sitio web para mejorar el rendimiento y la experiencia del usuario en diferentes dispositivos y navegadores.
+## 💻 Instrucciones de Instalación y Prueba
 
-Contribuir
+Este proyecto puede ejecutarse en dos modos: **Modo Mockup (Rápido)** y **Modo Ingeniero (Full WordPress)**.
 
-¡Siéntete libre de contribuir al desarrollo de este proyecto! Si tienes ideas para mejorar el sitio web o deseas agregar nuevas características, no dudes en enviar una solicitud de extracción.
-Contacto
+### Opción A: Modo Mockup (Frontend Only)
+*Ideal para visualizar la UI, UX y flujos de usuario inmediatamente sin configurar servidores.*
 
-Si tienes alguna pregunta o sugerencia sobre el proyecto, no dudes en ponerte en contacto con nosotros en contacto@n1human.com.
+1.  Navega a la carpeta `/frontend`.
+2.  Abre el archivo `index.html` en tu navegador.
+    *   *Recomendado:* Usar **Live Server** en VS Code para simular un servidor local.
+3.  **Credenciales de Prueba:**
+    *   **Admin:** `admin@n1human.com` / `123`
+    *   **User:** `user@n1human.com` / `123`
+    *   **Sandbox Card (Visa):** `4111 1111 1111 1111` (Cualquier fecha futura, CVV 123).
+
+### Opción B: Modo Backend (WordPress Integration)
+*Para auditar la calidad del código PHP y la arquitectura del plugin.*
+
+1.  Tener una instalación local de WordPress funcionando.
+2.  Copiar la carpeta `backend-architecture/wp-content/plugins/n1human-core` a tu carpeta local de plugins (`wp-content/plugins/`).
+3.  Activar el plugin **"n1Human Core"** desde el admin de WordPress.
+4.  El plugin expondrá los endpoints en `/wp-json/n1human/v1/products` replicando la estructura del mock.
+
+---
+
+## 🛡️ Características Implementadas
+
+### Frontend & UX
+*   **Web Components:** `<n1-navbar>`, `<n1-product-card>`, `<n1-cart-drawer>` para modularidad.
+*   **State Management:** Carrito persistente y Sesión de Usuario usando `localStorage` y Servicios JS (`AuthService`, `CartService`).
+*   **Accesibilidad (a11y):** Navegación por teclado, etiquetas ARIA, y mitigación de riesgos fotosensibles en video.
+*   **Diseño:** Interfaz "Dark Mode" inmersiva con efectos Glassmorphism.
+
+### Lógica de Negocio & Seguridad
+*   **RBAC (Role-Based Access Control):** Paneles de control diferenciados para **Admin** (Gestión de Inventario) y **Usuario** (Historial de Pedidos).
+*   **Auth Guard:** Protección de rutas críticas (Checkout, Dashboard).
+*   **Validación de Pagos:** Implementación real del **Algoritmo de Luhn** para validar tarjetas de crédito en el cliente antes de procesar.
+*   **Sandbox Testing:** Modal de pagos integrado con herramientas de prueba para desarrolladores.
+
+---
+
+## 📂 Estructura de Directorios
+
+```text
+/
+├── frontend/                  # Aplicación Cliente
+│   ├── api/                   # JSON Mocks (Simulación REST)
+│   ├── assets/                # Estilos, Scripts y Multimedia
+│   │   ├── js/
+│   │   │   ├── components/    # Web Components (UI)
+│   │   │   └── services/      # Lógica de Negocio (Auth, Cart, Orders)
+│   └── *.html                 # Vistas (Index, Login, Dashboard, Tienda)
+│
+├── backend-architecture/      # Código WordPress
+│   └── wp-content/plugins/
+│       └── n1human-core/      # Plugin MVC (Controllers, Models)
+│
+└── docs/                      # Documentación API
+    └── openapi.yaml           # Swagger Spec
+```
+
+---
+
+**Desarrollado por:** Nahuel
+*Ingeniería de Software & WordPress Avanzado*
