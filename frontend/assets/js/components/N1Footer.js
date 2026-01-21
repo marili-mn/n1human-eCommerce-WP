@@ -15,7 +15,7 @@ export class N1Footer extends HTMLElement {
           <li>Human &copy; ${year}</li>
           <li><a href="https://www.n1human.com" target="_blank">Web Oficial (Tienda Nube)</a></li>
           <li><a href="https://www.instagram.com/n1human/" target="_blank">Instagram</a></li>
-          <li><a href="#">Legal</a></li>
+          <li><a href="https://github.com/marili-mn" target="_blank">Legal & Autor: marili-mn</a></li>
         </ul>
         <div class="wp-status" style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #555;">
           <span style="display: inline-flex; align-items: center; gap: 5px;">
